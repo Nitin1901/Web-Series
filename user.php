@@ -108,8 +108,25 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                 while($row = $out->fetch_assoc()){
                     if($row['seasons']!=null){
                         echo '<td>
-                        <div class="profile-card-2" onclick="play('.$row['id'].')"><img src="'.$row['image'].'" class="img img-responsive">
-                        </div><div class="font-weight-bold">Rating: '.$row['rating'].'/5</div>
+                            <div class="profile-card-2" onclick="play('.$row['id'].')">
+                                <img src="'.$row['image'].'" class="img img-responsive">
+                            </div>
+                            <div class="font-weight-bold">
+                                Seasons: '.$row['seasons'].'
+                                <br>
+                                Rating: '.$row['rating'].'/5
+                                <br>';
+                        $inner_sql = "SELECT * FROM $table_seasons WHERE ".$row['id']." = id";
+                        $inner_out = mysqli_query($conn, $inner_sql);
+                        while($inner_row = $inner_out->fetch_assoc()) {
+                            echo 'Season '.$inner_row['season_num'].': '.$inner_row['episode_cnt'].' episodes ('.$inner_row['time_ep'].') min each<br>';
+                        }
+                        $inner_sql = "SELECT genre FROM $table_genre WHERE ".$row['id']." = id";
+                        $inner_out = mysqli_query($conn, $inner_sql);
+                        while($inner_row = $inner_out->fetch_assoc()) {
+                            echo '- '.$inner_row['genre'].'<br>';
+                        }
+                        echo '</div>
                         </td>';
                         if(($j)%4==0){
                             echo "</tr><tr>";
