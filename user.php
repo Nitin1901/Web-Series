@@ -14,9 +14,13 @@
             color: inherit;
         }
 
+        td{
+            padding:16px;
+        }
+
         .profile-card-2 {
-            width: 300px;
-            height: 400px;
+            width: 250px;
+            height: 370px;
             background-color: #FFF;
             box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.1);
             background-position: center;
@@ -116,21 +120,21 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         $j = 1;
         if(mysqli_num_rows($out) > 0){
             // Displaying data
-            echo "<div class='container'><div class='row'>";
+            echo "<div class='container'><table><tr>";
             while($row = $out->fetch_assoc()){
                 if($row['seasons']!=null){
-                    echo '<div class="col-sm">
+                    echo '<td>
                     <div class="profile-card-2" onclick="play('.$row['id'].')"><img src="'.$row['image'].'" class="img img-responsive">
                         
                     </div><div>Rating: '.$row['rating'].'/5</div>
-                    </div>';
-                    if(($j)%3==0){
-                        echo "</div><div class='row'>";
+                    </td>';
+                    if(($j)%4==0){
+                        echo "</tr><tr>";
                     }
                     $j++;
                 }
             }
-            echo "</div></div>";
+            echo "</table></div>";
         }        
 
     ?>
