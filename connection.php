@@ -83,27 +83,5 @@
     if (!mysqli_query($conn, $sql)) {
         echo "<br>Error creating table: " . mysqli_error($conn);
     }
-    
-    // Funtion to encrypt the given text.
-    function encrypt($str){
-        $ciphering = "BF-CBC";
-        $iv_length = openssl_cipher_iv_length($ciphering);
-        $options = 0;
-        $encryption_iv = '808fc44d';
-        $encryption_key = openssl_digest(php_uname(), 'MD5', TRUE);
-        $encryption = openssl_encrypt($str, $ciphering, $encryption_key, $options, $encryption_iv);
-        return $encryption;
-    }
-
-    // Function to decrypt the given string.
-    function decrypt($str1){
-        $ciphering = "BF-CBC";
-        $iv_length = openssl_cipher_iv_length($ciphering);
-        $decryption_key = openssl_digest(php_uname(), 'MD5', TRUE);
-        $options = 0;
-        $encryption_iv = '808fc44d';
-        $decryption = openssl_decrypt ($str1, $ciphering, $decryption_key, $options, $encryption_iv);
-        return $decryption;
-    }
 
 ?>  
