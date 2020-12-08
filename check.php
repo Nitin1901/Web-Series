@@ -9,7 +9,7 @@ $out = mysqli_query($conn, $sql);
 if(mysqli_num_rows($out) == 0) {
     echo "Username Available";
 } else {
-    echo "Username taken";
+    echo "Username Taken";
 }
 mysqli_close($conn);
 ?>

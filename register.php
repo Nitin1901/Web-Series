@@ -156,8 +156,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 }
                 xmlhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
-                    var result = this.responseText
-                    if (result == "Username Available") {
+                    var result = this.responseText;
+                    if (result == "Username Available" || result.length == 22) {
                         document.getElementById("txtHint").style.color = "green";
                     } else {
                         document.getElementById("txtHint").style.color = "red";

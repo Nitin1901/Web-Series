@@ -27,17 +27,13 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                 text-align: center;
             }
             td{
-                padding:16px;
+                padding: 10px;
             }
             .profile-card-2 {
                 width: 250px;
-                height: 370px;
-                background-color: #FFF;
-                box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.1);
-                background-position: center;
+                height: 350px;
+                margin: 30px;
                 overflow: hidden;
-                position: relative;
-                margin: 30px auto;
                 cursor: pointer;
                 border-radius: 10px;
             }
@@ -49,42 +45,8 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                 width: 100%;
                 height: 100%;
             }
-            .profile-card-2 .profile-name {
-                position: absolute;
-                left: 30px;
-                bottom: 70px;
-                font-size: 30px;
-                color: #FFF;
-                text-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
-                font-weight: bold;
-                transition: all linear 0.25s;
-            }
-            .profile-card-2 .profile-icons {
-                position: absolute;
-                bottom: 30px;
-                right: 30px;
-                color: #FFF;
-                transition: all linear 0.25s;
-            }
-            .profile-card-2 .profile-username {
-                position: absolute;
-                bottom: 50px;
-                left: 30px;
-                color: #FFF;
-                font-size: 13px;
-                transition: all linear 0.25s;
-            }
-            .profile-card-2 .profile-icons .fa {
-                margin: 5px;
-            }
-            .profile-card-2:hover .profile-name {
-                bottom: 80px;
-            }
-            .profile-card-2:hover .profile-username {
-                bottom: 60px;
-            }
-            .profile-card-2:hover .profile-icons {
-                right: 40px;
+            .info {
+                text-align: center;
             }
         </style>  
     </head>
@@ -116,21 +78,15 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                             <div class="profile-card-2" onclick="play('.$row['id'].')">
                                 <img src="'.$row['image'].'" class="img img-responsive">
                             </div>
-                            <div class="font-weight-bold">
+                            <h3 class="info">'.$row['name'].'</h3>
+                            <div class="font-weight-bold info">
                                 Seasons: '.$row['seasons'].'
                                 <br>
-                                Rating: '.$row['rating'].'/5
-                                <br>';
-                        $inner_sql = "SELECT * FROM $table_seasons WHERE ".$row['id']." = id";
-                        $inner_out = mysqli_query($conn, $inner_sql);
-                        while($inner_row = $inner_out->fetch_assoc()) {
-                            echo 'Season '.$inner_row['season_num'].': '.$inner_row['episode_cnt'].' episodes ('.$inner_row['time_ep'].') min each<br>';
-                        }
-                        $inner_sql = "SELECT genre FROM $table_genre WHERE ".$row['id']." = id";
-                        $inner_out = mysqli_query($conn, $inner_sql);
-                        while($inner_row = $inner_out->fetch_assoc()) {
-                            echo '- '.$inner_row['genre'].'<br>';
-                        }
+                                Rating: ';
+                                for($i=0; $i<$row['rating']; $i++) {
+                                    echo '⭐ ';
+                                }
+                                echo '<br>';
                         echo '</div>
                         </td>';
                         if(($j)%4==0){
