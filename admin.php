@@ -39,7 +39,7 @@
             $rating = test_input($_POST['rating']);
 
             $sql = "SELECT * FROM $table_webseries where name = '$series_name'";
-            $out = mysqli_query($con,$sql);
+            $out = mysqli_query($conn,$sql);
             if(mysqli_num_rows($out) == 0){
                 if(empty($_POST['genre'])){
                     echo "Select genre";
@@ -64,35 +64,32 @@
                     // Valid file extensions
                     $extensions_arr_video = array("mp4","avi","3gp","mov","mpeg");
                     $extensions_arr_img = array("jpeg","png","gif","psd","raw","jpg");
-                    // Check extension
-                    echo $videoFileType;
-                    echo $imgFileType;
                     if( in_array($videoFileType,$extensions_arr_video) && in_array($imgFileType, $extensions_arr_img)){
                 
                         // Check file size
                         if(($_FILES['webvideo']['size'] >= $maxsize_video) || ($_FILES["webvideo"]["size"] == 0) || 
                         ($_FILES['webimg']['size'] == 0)) {
-                            echo "File too large. File must be less than 20MB.";
+                            echo "<div class=\"container\"><div class=\"alert alert-danger\" role=\"alert\"> File too large. File must be less than 20MB. </div></div>";
                         }
                         else{
                             // Upload
                             if(move_uploaded_file($_FILES['webvideo']['tmp_name'],$target_videofile)){
                                 if(move_uploaded_file($_FILES['webimg']['tmp_name'], $target_imgfile)){
                                     $sql = "INSERT INTO $table_webseries(name, rating, image, video) values ('$series_name', '$rating', 'images/$newimgname', 'videos/$newvideoname')";
-                                    if(mysqli_query($con, $sql) === TRUE){
+                                    if(mysqli_query($conn, $sql) === TRUE){
                                         $sql = "SELECT id FROM $table_webseries where name='$series_name'";
-                                        $out = mysqli_query($con, $sql);
+                                        $out = mysqli_query($conn, $sql);
                                         $row = mysqli_fetch_assoc($out);
                                         $id = $row['id'];
                                         echo $id;
                                         foreach($_POST['genre'] as $check) {
                                             $sql = "INSERT INTO $table_genre(id, genre) VALUES ('$id', '$check')";
-                                            // mysqli_query($con, $sql);
-                                            if (!mysqli_query($con, $sql)) {
-                                                echo "<br>Error add genre: " . mysqli_error($con);
+                                            // mysqli_query($conn, $sql);
+                                            if (!mysqli_query($conn, $sql)) {
+                                                echo "<br>Error add genre: " . mysqli_error($conn);
                                             }
                                         }
-                                        echo "Upload successfully.";
+                                        echo "<div class=\"container\"><div class=\"alert alert-success\" role=\"alert\"> Uploaded succesfully. </div></div>";
                                     }
                                     else{
                                         // Set your path
@@ -127,43 +124,43 @@
             $time = test_input($_POST['time']);
 
             $sql = "SELECT * FROM $table_webseries where name = '$series_name'";
-            $out = mysqli_query($con,$sql);
+            $out = mysqli_query($conn,$sql);
             if(mysqli_num_rows($out) == 0){
-                echo "There is no season with than name";
+                echo "<div class=\"container\"><div class=\"alert alert-danger\" role=\"alert\"> Web-Series doesn't exist. </div></div>";
             }
             else{
                 $row = mysqli_fetch_assoc($out);            
                 $id = $row['id'];
                 if($row['seasons']==null && $season_num==1){
                     $sql = "INSERT INTO $table_seasons(id, season_num, episode_cnt, time_ep) VALUES ('$id', '$season_num', '$episode_cnt', '$time')";
-                    if(mysqli_query($con, $sql)){
+                    if(mysqli_query($conn, $sql)){
                         $sql = "UPDATE $table_webseries SET seasons=1 WHERE id=$id";
-                        if(!mysqli_query($con, $sql)){
-                            echo mysqli_error($con);
+                        if(!mysqli_query($conn, $sql)){
+                            echo mysqli_error($conn);
                         }
-                        echo "Season add successfully";
+                        echo "<div class=\"container\"><div class=\"alert alert-success\" role=\"alert\"> Season added successfully. </div></div>";
                     }
                     else{
                         echo $id;
-                        echo "Error adding season" . mysqli_error($con);
+                        echo "Error adding season" . mysqli_error($conn);
                     }
                 }
                 elseif ($row['seasons'] + 1 == $season_num) {
                     $sql = "INSERT INTO $table_seasons(id, season_num, episode_cnt, time_ep) VALUES ('$id', '$season_num', '$episode_cnt', '$time')";
-                    if(mysqli_query($con, $sql)){
+                    if(mysqli_query($conn, $sql)){
                         $sql = "UPDATE $table_webseries SET seasons=". (int)($row['seasons']+1)." WHERE id=$id";
-                        if(!mysqli_query($con, $sql)){
-                            echo mysqli_error($con);
+                        if(!mysqli_query($conn, $sql)){
+                            echo mysqli_error($conn);
                         }
-                        echo "Season add successfully";
+                        echo "<div class=\"container\"><div class=\"alert alert-success\" role=\"alert\"> Season added successfully. </div></div>";
                     }
                     else{
                         echo $id;
-                        echo "Error adding season" . mysqli_error($con);
+                        echo "Error adding season" . mysqli_error($conn);
                     }
                 }
                 else{
-                    echo "season number should be " . (int)($row['seasons']+1) ;
+                    echo "<div class=\"container\"><div class=\"alert alert-warning\" role=\"alert\"> Season number should be " . (int)($row['seasons']+1) . " </div></div>";
                 }
             }
 
@@ -250,26 +247,26 @@
                 <h1 class="display-2 text-center">Season</h1>
                 <form name="season-form" method="post">
                     <div class="form-group row mt-5">
-                        <label class="col-sm-2 col-form-label font-weight-bold">Series Name</label>
-                        <div class="col-sm-10">
+                        <label class="col-sm-3 col-form-label font-weight-bold">Series Name</label>
+                        <div class="col-sm-9">
                             <input type="text" class="form-control" name="wsname" id="wsname" placeholder="Name" required>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label font-weight-bold">Series Name</label>
-                        <div class="col-sm-10">
+                        <label class="col-sm-3 col-form-label font-weight-bold">Season Number</label>
+                        <div class="col-sm-9">
                             <input type="number" class="form-control" name="season_num" id="season_num" placeholder="Season number" required>
                         </div>    
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label font-weight-bold">Series Name</label>
-                        <div class="col-sm-10">
+                        <label class="col-sm-3 col-form-label font-weight-bold">Number of Episodes</label>
+                        <div class="col-sm-9">
                             <input type="number" class="form-control" name="episode_cnt" id="episode_cnt" placeholder="Number of Episodes" required>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label font-weight-bold">Series Name</label>
-                        <div class="col-sm-10">
+                        <label class="col-sm-3 col-form-label font-weight-bold">Time persode</label>
+                        <div class="col-sm-9">
                             <input type="time" class="form-control" name="time" id="time" placeholder="Approx time of each episode" required>
                         </div>
                     </div>

@@ -11,37 +11,38 @@
     $table_genre = "genre";
       
     // Connecting to database.
-    $con = mysqli_connect($host, $user, $password);
+    $conn = mysqli_connect($host, $user, $password);
 
     // Check connection
-    if(!$con) {
+    if(!$conn) {
         die("<br>Connection failed: " . mysqli_connect_error());
     }
 
     // Create database
     $sql = "CREATE DATABASE IF NOT EXISTS $db";
 
-    if (!mysqli_query($con, $sql)) {
-        echo "<br>Error creating database: " . mysqli_error($con);
+    if (!mysqli_query($conn, $sql)) {
+        echo "<br>Error creating database: " . mysqli_error($conn);
     }
 
     // Connecting to database
     $sql = "USE $db";
-    if (!mysqli_query($con, $sql)) {
-        echo "<br>Error creating database: " . mysqli_error($con);
+    if (!mysqli_query($conn, $sql)) {
+        echo "<br>Error creating database: " . mysqli_error($conn);
     }
 
     // Create users table
     $sql = "CREATE TABLE IF NOT EXISTS $table_users ( 
-        username VARCHAR(100) NOT NULL , 
-        password VARCHAR(100) NOT NULL , 
-        phone VARCHAR(20) NOT NULL ,
-        type VARCHAR(10) NOT NULL,
-        reg_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-        PRIMARY KEY (username))";
+        id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+        username VARCHAR(50) NOT NULL UNIQUE,
+        password VARCHAR(50) NOT NULL,
+        phone CHAR(10) NOT NULL,
+        type CHAR NOT NULL,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )";
 
-    if (!mysqli_query($con, $sql)) {
-        echo "<br>Error creating table: " . mysqli_error($con);
+    if (!mysqli_query($conn, $sql)) {
+        echo "<br>Error creating table: " . mysqli_error($conn);
     }
     
     // create table to store data about series
@@ -54,8 +55,8 @@
         video VARCHAR(225) NOT NULL,
         PRIMARY KEY(id))";
         
-    if (!mysqli_query($con, $sql)) {
-        echo "<br>Error creating table: " . mysqli_error($con);
+    if (!mysqli_query($conn, $sql)) {
+        echo "<br>Error creating table: " . mysqli_error($conn);
     }
 
     // create table to store data about each season
@@ -68,8 +69,8 @@
         PRIMARY KEY(id,season_num),
         CONSTRAINT fkey_seasons FOREIGN KEY (id) REFERENCES $table_webseries(id))";
         
-    if (!mysqli_query($con, $sql)) {
-        echo "<br>Error creating table: " . mysqli_error($con);
+    if (!mysqli_query($conn, $sql)) {
+        echo "<br>Error creating table: " . mysqli_error($conn);
     }
 
     // create table to store data about each season
@@ -79,8 +80,8 @@
         PRIMARY KEY(id, genre),
         CONSTRAINT fkey_genre FOREIGN KEY (id) REFERENCES $table_webseries(id))";
         
-    if (!mysqli_query($con, $sql)) {
-        echo "<br>Error creating table: " . mysqli_error($con);
+    if (!mysqli_query($conn, $sql)) {
+        echo "<br>Error creating table: " . mysqli_error($conn);
     }
     
     // Funtion to encrypt the given text.
