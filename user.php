@@ -94,6 +94,11 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             <p>
                 <a href="reset-password.php" class="btn btn-warning">Reset Your Password</a>
                 <a href="logout.php" class="btn btn-danger">Sign Out of Your Account</a>
+                <?php 
+                if ($_SESSION["type"] == 'A') {
+                    echo '<button class="btn btn-dark" onclick="admin()">Admin Page</button>';
+                }
+                ?>
             </p>
         </div>
         <?php
@@ -140,6 +145,10 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         <script>
             function play(id){
                 window.location.href = "play.php?id=" + id;
+            }
+            function admin() {
+                // logout.php file removes the stored cookie.
+                window.location.href = "admin.php";
             }
         </script>
     </body>

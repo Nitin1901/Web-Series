@@ -9,12 +9,15 @@
     </head>
     <body>
         <div class="container">
-            <div class="page-header m-5">
+            <div class="page-header mt-5">
                 <form method="post"> 
                     <input type="submit" class="btn btn-success" name="addseries" value="Add New Webseries" />
                     <input type="submit" class="btn btn-primary" name="addseason" value="Add New season" />
                     <a href="logout.php" class="btn btn-danger float-right">Log Out</a>
                 </form>
+            </div>
+            <div class="text-center">
+                <button class="btn btn-dark" onclick="series()">Go to Series</button>
             </div>
         </div>
 
@@ -22,6 +25,13 @@
 
         // Connection file
         include('connection.php');
+
+        session_start();
+
+        if($_SESSION["type"]=='U'){
+            header("location: user.php");
+            exit;
+        }
 
         function test_input($data) {
             $data = trim($data);
@@ -167,7 +177,7 @@
         }
 
         if(isset($_POST['addseries'])){
-            echo '<div class="container">
+            echo '<div class="container mt-5">
                 <div class="jumbotron">
                 <h1 class="display-2 text-center">Webseries</h1>
                 <form name="series-form" enctype="multipart/form-data" method="POST">
@@ -242,7 +252,7 @@
         }
 
         if(isset($_POST['addseason'])){
-            echo '<div class="container">
+            echo '<div class="container mt-5">
                 <div class="jumbotron">
                 <h1 class="display-2 text-center">Season</h1>
                 <form name="season-form" method="post">
@@ -280,18 +290,21 @@
             </div>';
         }
         ?>
-        
         <script>
             document.querySelector('.file1').addEventListener('change',function(e){
                 var fileName = document.getElementById("webimg").files[0].name;
                 var nextSibling = e.target.nextElementSibling
                 nextSibling.innerText = fileName
-            })
+            });
             document.querySelector('.file2').addEventListener('change',function(e){
                 var fileName = document.getElementById("webvideo").files[0].name;
                 var nextSibling = e.target.nextElementSibling
                 nextSibling.innerText = fileName
-            })
+            });
+            function series() {
+                // logout.php file removes the stored cookie.
+                window.location.href = "user.php";
+            }
         </script>
     </body>
 </html>
