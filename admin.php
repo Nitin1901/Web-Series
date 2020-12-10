@@ -13,7 +13,7 @@
                 <form method="post"> 
                     <input type="submit" class="btn btn-success" name="addseries" value="Add New Webseries" />
                     <input type="submit" class="btn btn-primary" name="addseason" value="Add New season" />
-                    <a href="logout.php" class="btn btn-danger float-right">Log Out</a>
+                    <a href="logout.php" class="btn btn-danger float-right">Sign Out of Your Account</a>
                 </form>
             </div>
             <div class="text-center">
@@ -220,7 +220,7 @@
                             <input class="form-check-input" type="checkbox" name="genre[]" value="Mystery" id="defaultCheck1">
                             <label class="form-check-label" for="defaultCheck1">Mystery</label></br>
                             <input class="form-check-input" type="checkbox" name="genre[]" value="Triller" id="defaultCheck1">
-                            <label class="form-check-label" for="defaultCheck1">Triller</label></br>
+                            <label class="form-check-label" for="defaultCheck1">Thriller</label></br>
                         </div> 
                     </div> 
                     <div class="form-group row">
