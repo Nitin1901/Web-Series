@@ -67,7 +67,10 @@
         time_ep VARCHAR(10) NOT NULL,
         uploaded_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         PRIMARY KEY(id,season_num),
-        CONSTRAINT fkey_seasons FOREIGN KEY (id) REFERENCES $table_webseries(id))";
+        CONSTRAINT fkey_seasons FOREIGN KEY (id) REFERENCES $table_webseries(id)
+        ON DELETE CASCADE 
+        ON UPDATE CASCADE
+        )";
         
     if (!mysqli_query($conn, $sql)) {
         echo "<br>Error creating table: " . mysqli_error($conn);
@@ -78,7 +81,10 @@
         id INT NOT NULL,
         genre VARCHAR(225),
         PRIMARY KEY(id, genre),
-        CONSTRAINT fkey_genre FOREIGN KEY (id) REFERENCES $table_webseries(id))";
+        CONSTRAINT fkey_genre FOREIGN KEY (id) REFERENCES $table_webseries(id)
+        ON DELETE CASCADE 
+        ON UPDATE CASCADE
+        )";
         
     if (!mysqli_query($conn, $sql)) {
         echo "<br>Error creating table: " . mysqli_error($conn);

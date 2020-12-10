@@ -13,10 +13,11 @@
                 <form method="post"> 
                     <input type="submit" class="btn btn-success" name="addseries" value="Add New Webseries" />
                     <input type="submit" class="btn btn-primary" name="addseason" value="Add New season" />
+                    <input type="submit" class="btn btn-warning" name="removeseries" value="Remove Webseries" />
                     <a href="logout.php" class="btn btn-danger float-right">Sign Out of Your Account</a>
                 </form>
             </div>
-            <div class="text-center">
+            <div class="text-center mt-5">
                 <button class="btn btn-dark" onclick="series()">Go to Series</button>
             </div>
         </div>
@@ -162,7 +163,7 @@
                         if(!mysqli_query($conn, $sql)){
                             echo mysqli_error($conn);
                         }
-                        echo "<div class=\"container\"><div class=\"alert alert-success\" role=\"alert\"> Season added successfully. </div></div>";
+                        echo "<div class=\"container mt-5\"><div class=\"alert alert-success\" role=\"alert\"> Season added successfully. </div></div>";
                     }
                     else{
                         echo $id;
@@ -289,6 +290,47 @@
             </div>
             </div>';
         }
+
+        if(isset($_POST['removeseries'])){
+            echo '<div class="container mt-5">
+            <div class="jumbotron">
+            <div class="form-1">
+            <h1 class="display-2 text-center">Delete</h1>
+            <form name="series-remove-form" id="deleteform" method="post" enctype="multipart/form-data">
+                <div class="form-group mt-5">
+                    <select class="form-control" id="wsname" name="wsname" required>
+                        <option selected value="" disabled>None</option>';
+            $sql = "SELECT name FROM $table_webseries";
+            $out = mysqli_query($conn, $sql);
+            if(mysqli_num_rows($out) > 0){
+                while($row = $out->fetch_assoc()){
+                    echo '<option value="'.$row['name'].'">'.$row['name'].'</option>';
+                }
+            }
+            echo '</select>
+                </div>
+                <div class="form-group">
+                <div class="text-center mt-5">
+                    <input type="submit" name="deleteseries" value="Delete Webseries" class="btn create-account btn-outline-dark">
+                </div>
+                </div>
+            </form>
+            </div></div></div>';
+        }
+
+        if(isset($_POST['deleteseries'])){
+            $series_name = test_input($_POST['wsname']);
+            echo '<div class="container mt-5">';
+            $sql = "DELETE FROM $table_webseries WHERE name='".$series_name."'";
+            if(mysqli_query($conn, $sql)){
+                echo '<div class="alert-box"><div class="alert alert-success" role="alert"> Series '.$series_name.' Deleted successfully! </div></div>';
+            }
+            else{
+                echo '<div class="alert-box"><div class="alert alert-danger" role="alert"> Error deleting series: '.mysqli_error($conn).' </div></div>';
+            }
+            echo '</div>';
+        }
+
         ?>
         <script>
             document.querySelector('.file1').addEventListener('change',function(e){
