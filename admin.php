@@ -100,7 +100,7 @@
                                                 echo "<br>Error add genre: " . mysqli_error($conn);
                                             }
                                         }
-                                        echo "<div class=\"container\"><div class=\"alert alert-success\" role=\"alert\"> Uploaded succesfully. </div></div>";
+                                        echo "<div class=\"container mt-5\"><div class=\"alert alert-success\" role=\"alert\"> Uploaded succesfully. </div></div>";
                                     }
                                     else{
                                         // Set your path
@@ -119,12 +119,12 @@
                         }
                     }
                     else{
-                        echo "<div class=\"container\"><div class=\"alert alert-danger\" role=\"alert\"> Invalid file extension. </div></div>";
+                        echo "<div class=\"container mt-5\"><div class=\"alert alert-danger\" role=\"alert\"> Invalid file extension. </div></div>";
                     }
                 }
             }
             else{
-                echo "<div class=\"container\"><div class=\"alert alert-danger\" role=\"alert\"> Web Series already exists. </div></div>";
+                echo "<div class=\"container mt-5\"><div class=\"alert alert-danger\" role=\"alert\"> Web Series already exists. </div></div>";
             }  
         }
 
@@ -137,7 +137,7 @@
             $sql = "SELECT * FROM $table_webseries where name = '$series_name'";
             $out = mysqli_query($conn,$sql);
             if(mysqli_num_rows($out) == 0){
-                echo "<div class=\"container\"><div class=\"alert alert-danger\" role=\"alert\"> Web-Series doesn't exist. </div></div>";
+                echo "<div class=\"container mt-5\"><div class=\"alert alert-danger\" role=\"alert\"> Web-Series doesn't exist. </div></div>";
             }
             else{
                 $row = mysqli_fetch_assoc($out);            
@@ -149,7 +149,7 @@
                         if(!mysqli_query($conn, $sql)){
                             echo mysqli_error($conn);
                         }
-                        echo "<div class=\"container\"><div class=\"alert alert-success\" role=\"alert\"> Season added successfully. </div></div>";
+                        echo "<div class=\"container mt-5\"><div class=\"alert alert-success\" role=\"alert\"> Season added successfully. </div></div>";
                     }
                     else{
                         echo $id;
@@ -171,7 +171,7 @@
                     }
                 }
                 else{
-                    echo "<div class=\"container\"><div class=\"alert alert-warning\" role=\"alert\"> Season number should be " . (int)($row['seasons']+1) . " </div></div>";
+                    echo "<div class=\"container mt-5\"><div class=\"alert alert-warning\" role=\"alert\"> Season number should be " . (int)($row['seasons']+1) . " </div></div>";
                 }
             }
 
